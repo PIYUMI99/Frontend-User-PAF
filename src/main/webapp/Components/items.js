@@ -17,7 +17,7 @@ $(document).on("click", "#btnSave", function(event)
  $("#alertError").text(""); 
  $("#alertError").hide(); 
 // Form validation-------------------
-var status = validateItemForm(); 
+var status = validateUserForm(); 
 if (status != true) 
  { 
  $("#alertError").text(status); 
@@ -25,21 +25,21 @@ if (status != true)
  return; 
  } 
 // If valid------------------------
-var type = ($("#hidItemIDSave").val() == "") ? "POST" : "PUT"; 
+var type = ($("#hidUserIDSave").val() == "") ? "POST" : "PUT"; 
  $.ajax( 
  { 
- url : "ItemsAPI", 
+ url : "UsersAPI", 
  type : type, 
- data : $("#formItem").serialize(), 
+ data : $("#formUser").serialize(), 
  dataType : "text", 
  complete : function(response, status) 
  { 
- onItemSaveComplete(response.responseText, status); 
+ onUserSaveComplete(response.responseText, status); 
  } 
  }); 
 });
 
-function onItemSaveComplete(response, status)
+function onUserSaveComplete(response, status)
 { 
 if (status == "success") 
  { 
@@ -48,7 +48,7 @@ if (status == "success")
  { 
  $("#alertSuccess").text("Successfully saved."); 
  $("#alertSuccess").show(); 
- $("#divItemsGrid").html(resultSet.data); 
+ $("#divUsersGrid").html(resultSet.data); 
  } else if (resultSet.status.trim() == "error") 
  { 
  $("#alertError").text(resultSet.data); 
@@ -63,15 +63,15 @@ if (status == "success")
  $("#alertError").text("Unknown error while saving.."); 
  $("#alertError").show(); 
  }
-$("#hidItemIDSave").val(""); 
-$("#formItem")[0].reset(); 
+$("#hidUserIDSave").val(""); 
+$("#formUser")[0].reset(); 
 }
 
 
 // UPDATE==========================================
 $(document).on("click", ".btnUpdate", function(event)
 		{ 
-		$("#hidItemIDSave").val($(this).data('serviceid')); 
+		$("#hidUserIDSave").val($(this).data('serviceid')); 
 		 $("#AccountNo").val($(this).closest("tr").find('td:eq(0)').text()); 
 		 $("#Address").val($(this).closest("tr").find('td:eq(1)').text()); 
 		 $("#Inquiry").val($(this).closest("tr").find('td:eq(2)').text()); 
@@ -86,18 +86,18 @@ $(document).on("click", ".btnRemove", function(event)
 		{ 
 		 $.ajax( 
 		 { 
-		 url : "ItemsAPI", 
+		 url : "UsersAPI", 
 		 type : "DELETE", 
 		 data : "ServiceId=" + $(this).data("serviceid"),
 		 dataType : "text", 
 		 complete : function(response, status) 
 		 { 
-		 onItemDeleteComplete(response.responseText, status); 
+		 onUserDeleteComplete(response.responseText, status); 
 		 } 
 		 }); 
 		});
 		
-function onItemDeleteComplete(response, status)
+function onUserDeleteComplete(response, status)
 { 
 if (status == "success") 
  { 
@@ -106,7 +106,7 @@ if (status == "success")
  { 
  $("#alertSuccess").text("Successfully deleted."); 
  $("#alertSuccess").show(); 
- $("#divItemsGrid").html(resultSet.data); 
+ $("#divUsersGrid").html(resultSet.data); 
  } else if (resultSet.status.trim() == "error") 
  { 
  $("#alertError").text(resultSet.data); 
@@ -125,7 +125,7 @@ if (status == "success")
 
 
 // CLIENT-MODEL================================================================
-function validateItemForm()
+function validateUserForm()
 {
 	// CODE
 	if ($("#AccountNo").val().trim() == "")

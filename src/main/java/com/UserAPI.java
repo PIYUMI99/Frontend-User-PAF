@@ -11,18 +11,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tomcat.jni.User;
-
-
-
 /**
  * Servlet implementation class UserAPI
  */
 @WebServlet("/UserAPI")
 public class UserAPI extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	User userObj = new User(); 
-	
+	User UserObj = new User(); 
 	
 	// Convert request parameters to a Map
 	private static Map getParasMap(HttpServletRequest request) 
@@ -69,18 +64,13 @@ public class UserAPI extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
-		
-		String output = userObj.insertUser(request.getParameter("Id"), 
-				   request.getParameter("Name"), 
-				   request.getParameter("Nic"), 
-				  request.getParameter("Address"),
-				   request.getParameter("TelNo")); 
-					request.getParameter("AccNo")); 
-		
-			response.getWriter().write(output);
 
-
-		doGet(request, response);
+		String output = UserObj.insertService(request.getParameter("name"), 
+												 request.getParameter("nic"), 
+												 request.getParameter("address"), 
+												 request.getParameter("telNo"), 
+												 request.getParameter("accNo")); 
+		response.getWriter().write(output);
 	}
 
 	/**
@@ -88,6 +78,17 @@ public class UserAPI extends HttpServlet {
 	 */
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		
+		
+		
+		Map paras = getParasMap(request); 
+		 String output = UserObj.updateService(paras.get("hidUserIDSave").toString(), 
+				 							paras.get("name").toString(),
+				 							paras.get("nic").toString(), 
+				 							paras.get("address").toString(), 
+				 							paras.get("telNo").toString(), 
+				 							paras.get("accNo").toString()); 
+		response.getWriter().write(output); 
 	}
 
 	/**
@@ -95,6 +96,10 @@ public class UserAPI extends HttpServlet {
 	 */
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		
+		Map paras = getParasMap(request); 
+		String output = UserObj.deleteService(paras.get("id").toString()); 
+		response.getWriter().write(output);
 	}
 
 }

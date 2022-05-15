@@ -1,6 +1,6 @@
 package service;
 
-import com.Model;
+import com.User;
 
 import javax.ws.rs.*; 
 import javax.ws.rs.core.MediaType; 
@@ -14,7 +14,7 @@ import org.jsoup.nodes.Document;
 @Path("/Service")
 public class service {
 	
-	Model serviceObj = new Model();
+	User serviceObj = new User();
 	
 	@POST
 	@Path("/insert") 
@@ -27,7 +27,7 @@ public class service {
 	 @FormParam("telNo") String telNo,
 	 @FormParam("accNo") String accNo) 
 	{ 
-	 String output = serviceObj.insertService(name, nic, address, telNo, accNo); 
+	 String output = serviceObj.insertService(name, nic, address); 
 	return output; 
 	}
 	
@@ -45,6 +45,7 @@ public class service {
 	@Produces(MediaType.TEXT_PLAIN) 
 	public String updateService(String serviceData) 
 	{ 
+		
 	//Convert the input string to a JSON object 
 	 JsonObject serviceObject = new JsonParser().parse(serviceData).getAsJsonObject(); 
 	//Read the values from the JSON object
@@ -57,6 +58,8 @@ public class service {
 	 String output = serviceObj.updateService(id, name, nic, address, telNo, accNo); 
 	return output; 
 	}
+	
+	
 
 	@DELETE
 	@Path("/delete") 
